@@ -22,6 +22,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     var songList: [MPMediaItem] = []
     
     var currentListType: ListType = .song
+    let myMediaPlayer = MPMusicPlayerController.applicationMusicPlayer
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         albumList = MediaQuery.getAlbums()
         songList = MediaQuery.getSongs()
         playlistList = MediaQuery.getPlaylists()
+
         
         playerView = UIView()
         playerView.backgroundColor = .red
@@ -52,7 +54,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
             make.height.equalTo(view.snp.height).dividedBy(4.0/3.0)
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -74,23 +76,25 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         let cell = tableView.dequeueReusableCell(withIdentifier: "MediaCell", for: indexPath)
         let song = songList[indexPath.row]
         cell.textLabel?.text = song.value(forProperty: MPMediaItemPropertyTitle) as? String
-        cell.selectionStyle = .none
-        cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .default
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        playSong(song: songList[indexPath.row])
     }
     
     
     func playSong(song: MPMediaItem) {
-        // Instantiate a new music player
-        let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-        // Add a playback queue containing all songs on the device
-        myMediaPlayer.set
-        myMediaPlayer.play()
-        // Start playing from the beginning of the queue
-        myMediaPlayer.play()
+        // Add a playback queue containing the song to be played
+        myMediaPlayer.stop()
+        let currenttrack = MPMediaItemCollection(items: [song])
+        myMediaPlayer.setQueue(with: currenttrack)
+        myMediaPlayer.prepareToPlay()
+        if(myMediaPlayer.isPreparedToPlay) {
+            // Start playing
+            myMediaPlayer.play()
+        }
     }
 
 }
