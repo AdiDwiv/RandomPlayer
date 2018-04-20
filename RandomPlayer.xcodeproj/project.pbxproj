@@ -17,7 +17,7 @@
 		403F8054208A32690017F367 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403F8053208A32680017F367 /* MediaPlayer.framework */; };
 		403F8056208A326F0017F367 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403F8055208A326F0017F367 /* MediaToolbox.framework */; };
 		403F8058208A327D0017F367 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403F8057208A327D0017F367 /* AudioToolbox.framework */; };
-		403F805B208A35E80017F367 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403F805A208A35E80017F367 /* Enums.swift */; };
+		403F8064208A7ED90017F367 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403F8063208A7ED90017F367 /* UIColor+.swift */; };
 		61D81CA0695B0722D1570D60 /* Pods_RandomPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF5EAD89D2D08E84F0B8A780 /* Pods_RandomPlayer.framework */; };
 		E6FD30FDF6A8E1E15BECB23D /* Pods_RandomPlayerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26288140BE943514CB49FAA9 /* Pods_RandomPlayerUITests.framework */; };
 		F26B03BE47BABBEA89C27F6F /* Pods_RandomPlayerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A44245835138F239F95B01E5 /* Pods_RandomPlayerTests.framework */; };
@@ -59,7 +59,7 @@
 		403F8053208A32680017F367 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		403F8055208A326F0017F367 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		403F8057208A327D0017F367 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		403F805A208A35E80017F367 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		403F8063208A7ED90017F367 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIColor+.swift"; path = "RandomPlayer/New Group/UIColor+.swift"; sourceTree = SOURCE_ROOT; };
 		9159117794FF6EE58706E5B2 /* Pods-RandomPlayerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RandomPlayerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RandomPlayerTests/Pods-RandomPlayerTests.release.xcconfig"; sourceTree = "<group>"; };
 		95D96E5C06DF9314A2DB735A /* Pods-RandomPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RandomPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-RandomPlayer/Pods-RandomPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		A44245835138F239F95B01E5 /* Pods_RandomPlayerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RandomPlayerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,7 +125,7 @@
 		403F801E208A26F70017F367 /* RandomPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				403F8059208A35D60017F367 /* Models */,
+				403F8062208A7E970017F367 /* Extensions */,
 				403F804D208A2D1B0017F367 /* Helpers */,
 				403F801F208A26F70017F367 /* AppDelegate.swift */,
 				403F8021208A26F70017F367 /* ViewController.swift */,
@@ -162,13 +162,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		403F8059208A35D60017F367 /* Models */ = {
+		403F8062208A7E970017F367 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				403F805A208A35E80017F367 /* Enums.swift */,
+				403F8063208A7ED90017F367 /* UIColor+.swift */,
 			);
-			name = Models;
-			path = "New Group";
+			name = Extensions;
+			path = "New Group1";
 			sourceTree = "<group>";
 		};
 		8445727A61500F3B6C84750A /* Pods */ = {
@@ -408,8 +408,8 @@
 			files = (
 				403F8052208A2DC00017F367 /* MediaQuery.swift in Sources */,
 				403F8022208A26F70017F367 /* ViewController.swift in Sources */,
-				403F805B208A35E80017F367 /* Enums.swift in Sources */,
 				403F8020208A26F70017F367 /* AppDelegate.swift in Sources */,
+				403F8064208A7ED90017F367 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
