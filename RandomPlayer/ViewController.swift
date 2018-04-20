@@ -16,12 +16,18 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     
     var tableView: UITableView!
     var playerView: UIView!
+    var playToggleButton : UIButton!
+    let playImage: UIImage! = #imageLiteral(resourceName: "icons8-circled-play-50")
+    let pauseImage: UIImage! = #imageLiteral(resourceName: "icons8-pause-button-50")
+    let shuffleImage: UIImage! = #imageLiteral(resourceName: "icons8-shuffle-50")
+    var songLabel : UILabel!
     
     var albumList: [MPMediaItemCollection] = []
     var playlistList: [MPMediaItemCollection] = []
     var songList: [MPMediaItem] = []
     
     var currentListType: ListType = .song
+    var currentTrack: MPMediaItem!
     let myMediaPlayer = MPMusicPlayerController.applicationMusicPlayer
 
     override func viewDidLoad() {
@@ -31,14 +37,9 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         songList = MediaQuery.getSongs()
         playlistList = MediaQuery.getPlaylists()
 
-        
-        playerView = UIView()
-        playerView.backgroundColor = .red
-        view.addSubview(playerView)
-        playerView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(view.snp.height).dividedBy(4)
-        }
+        setupPlayerView()
+        chooseRandomTrack()
+        updatePlayerView()
         
         tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MediaCell")
@@ -59,6 +60,56 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         super.didReceiveMemoryWarning()
     }
     
+    func setupPlayerView() {
+        playerView = UIView()
+        playerView.backgroundColor = .lightGray
+        view.addSubview(playerView)
+        playerView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.width.equalToSuperview()
+            make.height.equalTo(view.snp.height).dividedBy(5)
+        }
+        songLabel = UILabel()
+        songLabel.textAlignment = .center
+        playerView.addSubview(songLabel)
+        songLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(5)
+            make.height.equalToSuperview().dividedBy(3)
+            make.width.equalToSuperview().multipliedBy(0.8)
+            make.centerX.equalToSuperview()
+        }
+        playToggleButton = UIButton()
+        playToggleButton.addTarget(self, action: #selector(togglePlay), for: .touchUpInside)
+        playToggleButton.setImage(playImage, for: .normal)
+        playerView.addSubview(playToggleButton)
+        playToggleButton.snp.makeConstraints { make in
+            make.top.equalTo(songLabel.snp.bottom).offset(10)
+            make.height.equalToSuperview().dividedBy(3)
+            make.width.equalTo(playToggleButton.snp.height)
+            make.centerX.equalToSuperview().offset(40)
+        }
+        let randomButton = UIButton()
+        randomButton.addTarget(self, action: #selector(playRandom), for: .touchUpInside)
+        playerView.addSubview(randomButton)
+        randomButton.setImage(shuffleImage, for: .normal)
+        randomButton.snp.makeConstraints { make in
+            make.top.equalTo(songLabel.snp.bottom).offset(10)
+            make.height.equalToSuperview().dividedBy(3)
+            make.width.equalToSuperview().multipliedBy(0.2)
+            make.centerX.equalToSuperview().offset(-40)
+        }
+    }
+    
+    func updatePlayerView() {
+        songLabel.text = currentTrack.title
+    }
+    
+    func chooseRandomTrack() {
+        let random = arc4random_uniform(UInt32(songList.count))
+        currentTrack = songList[Int(random)]
+    }
+    
+    //Functions for setting up and managing TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch currentListType {
         case .song:
@@ -81,15 +132,40 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        playSong(song: songList[indexPath.row])
+        currentTrack = songList[indexPath.row]
+        playToggleButton.setImage(pauseImage, for: .normal)
+        updatePlayerView()
+        playSong()
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    //Functions for managing media player
+    @objc func togglePlay() {
+        if(myMediaPlayer.playbackState == .playing) {
+            myMediaPlayer.pause()
+            playToggleButton.setImage(playImage, for: .normal)
+        } else {
+            if(myMediaPlayer.playbackState == .paused) {
+                myMediaPlayer.play()
+            } else {
+                playSong()
+            }
+            playToggleButton.setImage(pauseImage, for: .normal)
+        }
+    }
     
-    func playSong(song: MPMediaItem) {
-        // Add a playback queue containing the song to be played
+    @objc func playRandom() {
+        chooseRandomTrack()
+        playToggleButton.setImage(pauseImage, for: .normal)
+        updatePlayerView()
+        playSong()
+    }
+    
+    func playSong() {
         myMediaPlayer.stop()
-        let currenttrack = MPMediaItemCollection(items: [song])
-        myMediaPlayer.setQueue(with: currenttrack)
+        // Add a playback queue containing the song to be played
+        let trackQueue = MPMediaItemCollection(items: [currentTrack])
+        myMediaPlayer.setQueue(with: trackQueue)
         myMediaPlayer.prepareToPlay()
         if(myMediaPlayer.isPreparedToPlay) {
             // Start playing
