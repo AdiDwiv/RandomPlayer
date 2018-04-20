@@ -151,6 +151,7 @@ class ViewController: UIViewController , UITableViewDataSource, UITableViewDeleg
         currentTrack = songList[indexPath.row]
         playToggleButton.setImage(pauseImage, for: .normal)
         updatePlayerView()
+        hasPlayedSong = true
         playSong()
         tableView.deselectRow(at: indexPath, animated: true)
     }
